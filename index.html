@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sudoku Diario</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <audio id="bg-audio" loop></audio>
+
+    <div class="menu-container" id="menu-screen">
+        <button id="btn-profile-top" class="profile-btn">👤 Iniciar Sesión</button>
+        
+        <h1 class="game-title">SUDOKU<br><span class="subtitle">DIARIO</span></h1>
+        <div class="button-group">
+            <button class="btn btn-primary" id="btn-daily">Sudoku de Hoy</button>
+            <button class="btn btn-secondary" id="btn-free">Juego Libre</button>
+            <button class="btn btn-secondary" id="btn-ranking">Ranking Global</button>
+            <button class="btn btn-secondary" id="btn-store">Catálogo de Estilo</button>
+        </div>
+    </div>
+
+    <div class="menu-container hidden" id="profile-screen">
+        <div class="header">
+            <button class="btn-back" id="btn-back-profile">⬅ Volver</button>
+            <h2 style="color: var(--text-color);">Mi Perfil</h2>
+        </div>
+        <div class="profile-card">
+            <div class="profile-avatar">👤</div>
+            <h3 id="profile-name" style="margin: 10px 0; color: var(--main-color);">Cargando...</h3>
+            <p id="profile-email" style="color: #888; font-size: 0.9rem; margin-bottom: 20px;">correo@gmail.com</p>
+            <button class="btn btn-secondary" id="btn-logout" style="border-color: #ff4d4d; color: #ff4d4d;">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <div class="menu-container hidden" id="difficulty-screen">
+        <div class="header">
+            <button class="btn-back" id="btn-back-diff">⬅ Volver</button>
+            <h2 style="color: var(--text-color);">Dificultad</h2>
+        </div>
+        <div class="button-group">
+            <button class="btn btn-diff-facil" onclick="startFreeGame(30)">Fácil</button>
+            <button class="btn btn-diff-medio" onclick="startFreeGame(45)">Medio</button>
+            <button class="btn btn-diff-dificil" onclick="startFreeGame(55)">Difícil</button>
+            <button class="btn btn-diff-hardcore" onclick="startFreeGame(65)">Hardcore</button>
+        </div>
+    </div>
+
+    <div class="menu-container hidden" id="ranking-screen">
+        <div class="header">
+            <button class="btn-back" id="btn-back-ranking">⬅ Volver</button>
+            <h2 style="color: var(--text-color);">Top 30 Global</h2>
+        </div>
+        <div class="ranking-list" id="ranking-list">
+            <p style="color: #888;">Cargando a los mejores...</p>
+        </div>
+    </div>
+
+    <div class="menu-container hidden" id="store-screen" style="gap: 15px;">
+        <div class="header">
+            <button class="btn-back" id="btn-back-store">⬅ Volver</button>
+            <h2 style="color: var(--text-color); font-size: 1.2rem;">Mi Estilo</h2>
+        </div>
+        <div class="store-tabs">
+            <button class="tab-btn active" onclick="switchTab('skins', event)">🎨</button>
+            <button class="tab-btn" onclick="switchTab('music', event)">🎵</button>
+            <button class="tab-btn" onclick="switchTab('emojis', event)">💎</button>
+            <button class="tab-btn" onclick="switchTab('anims', event)">✨</button>
+            <button class="tab-btn" onclick="switchTab('fonts', event)">🔢</button>
+        </div>
+        <div class="store-grid" id="store-items-container"></div>
+    </div>
+
+    <div class="calendar-container hidden" id="calendar-screen">
+        <div class="header">
+            <button class="btn-back" id="btn-back-calendar">⬅ Volver</button>
+            <h2 id="month-title">Mes Año</h2>
+        </div>
+        <div class="reward-info">
+            <p>🎁 Premio del Mes:</p>
+            <div class="reward-hint"><span class="reward-icon">🏆</span><span style="font-weight: bold; color: #ff4d4d;"> Skin Rubí Campeón</span></div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+            <p class="progress-text" id="progress-text">0 / 31 completados</p>
+        </div>
+        <div class="weekdays"><span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span></div>
+        <div class="days-grid" id="days-grid"></div>
+    </div>
+
+    <div class="game-container hidden" id="game-screen">
+        <div class="header">
+            <h2 style="color: var(--text-color); font-size: 1.3rem;">Sudoku</h2>
+            <button class="btn-exit" id="btn-exit">🚪 Salir</button>
+        </div>
+        <div class="game-info">
+            <span id="mistakes-display">Vidas: ❤️❤️❤️</span>
+            <span id="timer-display">⏱ 00:00</span>
+        </div>
+        <div id="sudoku-board" class="sudoku-board"></div>
+        <div class="number-pad">
+            <button class="pad-btn">1</button><button class="pad-btn">2</button><button class="pad-btn">3</button>
+            <button class="pad-btn">4</button><button class="pad-btn">5</button><button class="pad-btn">6</button>
+            <button class="pad-btn">7</button><button class="pad-btn">8</button><button class="pad-btn">9</button>
+            <button class="pad-btn btn-erase">Borrar</button>
+        </div>
+    </div>
+
+    <div id="game-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 class="modal-title" id="modal-title">Título</h2>
+            <p class="modal-message" id="modal-message">Mensaje</p>
+            <button id="modal-btn-login" class="modal-btn hidden" style="background: #ea4335; margin-bottom: 10px;">🔴 Continuar con Google</button>
+            <button id="modal-btn" class="modal-btn">Aceptar</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
