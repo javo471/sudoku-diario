@@ -30,7 +30,7 @@
         <div class="profile-card">
             <div class="profile-avatar">👤</div>
             <h3 id="profile-name" style="margin: 10px 0; color: var(--main-color);">Cargando...</h3>
-            <p id="profile-email" style="color: #888; font-size: 0.9rem; margin-bottom: 20px;">correo@gmail.com</p>
+            <p id="profile-email" style="color: #888; font-size: 0.9rem; margin-bottom: 20px;">correo</p>
             <button class="btn btn-secondary" id="btn-logout" style="border-color: #ff4d4d; color: #ff4d4d;">Cerrar Sesión</button>
         </div>
     </div>
@@ -110,14 +110,15 @@
         <div class="modal-content">
             <h2 class="modal-title" id="modal-title">Título</h2>
             <p class="modal-message" id="modal-message">Mensaje</p>
-            <button id="modal-btn-login" class="modal-btn hidden" style="background: #ea4335; margin-bottom: 10px;">🔴 Continuar con Google</button>
             <button id="modal-btn" class="modal-btn">Aceptar</button>
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
-    <script src="js/game.js"></script>
-</body>
-</html>
+    <div id="auth-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 class="modal-title">Cuenta Nube</h2>
+            <p class="modal-message" style="margin-bottom: 15px; font-size: 0.95rem;">Guarda tu progreso y entra al ranking.</p>
+            <input type="email" id="auth-email" class="modal-input" placeholder="Correo electrónico">
+            <input type="password" id="auth-pass" class="modal-input" placeholder="Contraseña (Mínimo 6)">
+            <button id="btn-auth-login" class="modal-btn" style="margin-bottom: 10px;">Iniciar Sesión</button>
+            <button id="btn-auth-register" class="modal-btn" style="background:
